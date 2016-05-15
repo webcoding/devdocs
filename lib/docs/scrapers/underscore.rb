@@ -4,7 +4,8 @@ module Docs
     self.slug = 'underscore'
     self.type = 'underscore'
     self.release = '1.8.3'
-    self.base_url = 'http://underscorejs.org'
+    #self.base_url = 'http://underscorejs.org'
+    self.base_url = 'http://www.css88.com/doc/underscore/'
 
     html_filters.push 'underscore/clean_html', 'underscore/entries', 'title'
 

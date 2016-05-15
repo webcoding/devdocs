@@ -3,10 +3,13 @@ module Docs
     self.name = 'Backbone.js'
     self.slug = 'backbone'
     self.type = 'underscore'
-    self.release = '1.3.3'
-    self.base_url = 'http://backbonejs.org'
+    self.release = '1.2.2'
+    self.base_url = 'http://www.css88.com/doc/backbone/'
+    #self.release = '1.3.3'
+    #self.base_url = 'http://backbonejs.org'
     self.links = {
-      home: 'http://backbonejs.org/',
+      #home: 'http://backbonejs.org/',
+      home: 'http://www.css88.com/doc/backbone/',
       code: 'https://github.com/jashkenas/backbone'
     }
 
