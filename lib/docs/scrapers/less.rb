@@ -1,12 +1,15 @@
 module Docs
   class Less < UrlScraper
     self.type = 'less'
-    self.release = '2.6.1'
-    self.base_url = 'http://lesscss.org'
+    # self.release = '2.6.1'
+    # self.base_url = 'http://lesscss.org'
+    self.release = '2.5.3'
+    self.base_url = 'http://lesscss.cn/'
     self.root_path = '/features'
     self.initial_paths = %w(/functions)
     self.links = {
-      home: 'http://lesscss.org/',
+      # home: 'http://lesscss.org/',
+      home: 'http://lesscss.cn/',
       code: 'https://github.com/less/less.js'
     }
 

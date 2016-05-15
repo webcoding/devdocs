@@ -3,14 +3,16 @@ module Docs
     self.name = 'Express'
     self.type = 'express'
     self.release = '4.13.4'
-    self.base_url = 'http://expressjs.com/en/'
+    # self.base_url = 'http://expressjs.com/en/'
+    self.base_url = 'http://www.expressjs.com.cn/'
     self.root_path = '4x/api.html'
     self.initial_paths = %w(
       starter/installing.html
       guide/routing.html
       advanced/developing-template-engines.html )
     self.links = {
-      home: 'http://expressjs.com/',
+      # home: 'http://expressjs.com/',
+      home: 'http://www.expressjs.com.cn/',
       code: 'https://github.com/strongloop/express/'
     }
 

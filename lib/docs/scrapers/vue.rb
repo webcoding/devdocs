@@ -4,11 +4,13 @@ module Docs
     self.slug = 'vue'
     self.type = 'vue'
     self.release = '1.0.21'
-    self.base_url = 'https://vuejs.org'
+    #self.base_url = 'https://vuejs.org'
+    self.base_url = 'http://cn.vuejs.org/'
     self.root_path = '/guide/index.html'
     self.initial_paths = %w(/api/index.html)
     self.links = {
-      home: 'https://vuejs.org/',
+      #home: 'https://vuejs.org/',
+      home: 'http://cn.vuejs.org/',
       code: 'https://github.com/vuejs/vue'
     }
 

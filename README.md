@@ -27,7 +27,14 @@ git clone https://github.com/Thibaut/devdocs.git && cd devdocs
 gem install bundler
 bundle install
 thor docs:download --default
+thor docs:download --all
 rackup
+
+thor docs:page backbone
+thor docs:page express
+thor docs:page less
+thor docs:page underscore
+thor docs:page vue
 ```
 
 Finally, point your browser at [localhost:9292](http://localhost:9292) (the first request will take a few seconds to compile the assets). You're all set.
