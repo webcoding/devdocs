@@ -6,10 +6,13 @@ module Docs
         'EXT_'                => 'WebGL',
         'OES_'                => 'WebGL',
         'WEBGL_'              => 'WebGL',
+        'Ambient Light'       => 'Ambient Light',
         'Battery Status'      => 'Battery Status',
         'Canvas '             => 'Canvas',
+        'Cooperative Scheduling' => 'Scheduling',
         'CSS Font Loading'    => 'CSS',
         'CSS Object Model'    => 'CSS',
+        'Credential'          => 'Credential Management',
         'Cryptography'        => 'Web Cryptography',
         'Device Orientation'  => 'Device Orientation',
         'Encoding'            => 'Encoding',
@@ -19,11 +22,13 @@ module Docs
         'Geolocation'         => 'Geolocation',
         'Geometry'            => 'Geometry',
         'High Resolution Time' => 'Web Performance',
+        'Intersection'        => 'Intersection Observer',
         'Media Capture'       => 'Media',
         'Media Source'        => 'Media',
-        'MediaStream'         => 'Media',
+        'MediaStream'         => 'Media Streams',
         'Navigation Timing'   => 'Web Performance',
         'Network Information' => 'Network Information',
+        'Payment Request'     => 'Payment Request',
         'Performance Timeline' => 'Web Performance',
         'Pointer Events'      => 'Pointer Events',
         'Push API'            => 'Push',
@@ -31,9 +36,13 @@ module Docs
         'Shadow DOM'          => 'Shadow DOM',
         'Server-Sent Events'  => 'Server-Sent Events',
         'Service Workers'     => 'Service Workers',
+        'Stream API'          => 'Media Streams',
+        'Streams'             => 'Media Streams',
         'Touch Events'        => 'Touch Events',
         'Web Animations'      => 'Animation',
+        'Web App Manifest'    => 'Web App Manifest',
         'Web Audio'           => 'Web Audio',
+        'Web Budget'          => 'Web Budget',
         'Web Messaging'       => 'Web Messaging',
         'Web MIDI'            => 'Web MIDI',
         'Web Speech'          => 'Web Speech',
@@ -44,12 +53,15 @@ module Docs
         'WebVR'               => 'WebVR' }
 
       TYPE_BY_NAME_STARTS_WITH = {
+        'Ambient'             => 'Ambient Light',
         'Audio'               => 'Web Audio',
         'Broadcast'           => 'Broadcast Channel',
+        'Budget'              => 'Web Budget',
         'Canvas'              => 'Canvas',
         'CSS'                 => 'CSS',
         'ChildNode'           => 'Node',
         'console'             => 'Console',
+        'CustomElement'       => 'Custom Elements',
         'DataTransfer'        => 'Drag & Drop',
         'document'            => 'Document',
         'DocumentFragment'    => 'DocumentFragment',
@@ -67,10 +79,13 @@ module Docs
         'location'            => 'Location',
         'navigator'           => 'Navigator',
         'MediaQuery'          => 'MediaQuery',
+        'MediaTrack'          => 'Media Streams',
         'Node'                => 'Node',
         'Notification'        => 'Notification',
+        'OffscreenCanvas'     => 'Canvas',
         'ParentNode'          => 'Node',
         'Performance'         => 'Web Performance',
+        'Presentation'        => 'Presentation',
         'Push'                => 'Push',
         'Range'               => 'Range',
         'Resource Timing'     => 'Web Performance',
@@ -86,20 +101,24 @@ module Docs
         'Touch'               => 'Touch Events',
         'TreeWalker'          => 'TreeWalker',
         'URL'                 => 'URL',
+        'VR'                  => 'WebVR',
         'window'              => 'Window',
         'Window'              => 'Window',
         'XMLHttpRequest'      => 'XMLHTTPRequest' }
 
       TYPE_BY_NAME_INCLUDES = {
+        'Animation'     => 'Animation',
         'ChildNode'     => 'Node',
         'Crypto'        => 'Web Cryptography',
         'Drag'          => 'Drag & Drop',
         'FormData'      => 'XMLHTTPRequest',
+        'History'       => 'History',
         'ImageBitmap'   => 'Canvas',
         'ImageData'     => 'Canvas',
         'IndexedDB'     => 'IndexedDB',
         'Media Source'  => 'Media',
-        'MediaStream'   => 'Media',
+        'MediaStream'   => 'Media Streams',
+        'Media Streams' => 'Media Streams',
         'NodeList'      => 'Node',
         'Path2D'        => 'Canvas',
         'Pointer'       => 'Pointer Events',
@@ -214,6 +233,10 @@ module Docs
             break if node.content == 'Non-standard methods'
             entries << ["#{name}.#{node.content}", node['id']]
           end
+        end
+
+        if slug == 'History_API'
+          entries << ['history.pushState()', 'The_pushState()_method']
         end
 
         entries

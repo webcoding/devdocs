@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Docs
   class NormalizePathsFilter < Filter
     def call
@@ -37,7 +39,7 @@ module Docs
 
       if context[:decode_and_clean_paths]
         path = URI.unescape(path)
-        path.gsub! %r{[!;:]+}, '-'
+        path = clean_path(path)
       end
 
       if path == '.'

@@ -41,7 +41,7 @@ module Docs
     self.html_filters = FilterStack.new
     self.text_filters = FilterStack.new
 
-    html_filters.push 'container', 'clean_html', 'normalize_urls', 'internal_urls', 'normalize_paths'
+    html_filters.push 'apply_base_url', 'container', 'clean_html', 'normalize_urls', 'internal_urls', 'normalize_paths'
     text_filters.push 'inner_html', 'clean_text', 'attribution'
 
     def initialize
@@ -115,7 +115,8 @@ module Docs
     def options
       @options ||= self.class.options.deep_dup.tap do |options|
         options.merge! base_url: base_url, root_url: root_url,
-                       root_path: root_path, initial_paths: initial_paths
+                       root_path: root_path, initial_paths: initial_paths,
+                       version: self.class.version
 
         if root_path?
           (options[:skip] ||= []).concat ['', '/']
@@ -161,13 +162,20 @@ module Docs
         instrument 'ignore_response.scraper', response: response
       end
     rescue => e
-      puts "URL: #{response.url}"
-      raise e
+      if Docs.rescue_errors
+        instrument 'error.doc', exception: e, url: response.url
+        nil
+      else
+        raise e
+      end
     end
 
     def process_response(response)
       data = {}
-      pipeline.call(parse(response.body), pipeline_context(response), data)
+      html, title = parse(response.body)
+      context = pipeline_context(response)
+      context[:html_title] = title
+      pipeline.call(html, context, data)
       data
     end
 
@@ -176,7 +184,8 @@ module Docs
     end
 
     def parse(string)
-      Parser.new(string).html
+      parser = Parser.new(string)
+      [parser.html, parser.title]
     end
 
     def with_filters(*filters)

@@ -30,7 +30,11 @@ module Docs
         ['super',                       'classes',                  'Statements'],
         ['::',                          'classes',                  'Operators'],
         ['Destructuring assignment',    'destructuring',            'Language'],
+        ['Bound Functions',             'fat-arrow',                'Language'],
+        ['Generator Functions',         'fat-arrow',                'Language'],
         ['=>',                          'fat-arrow',                'Statements'],
+        ['yield',                       'fat-arrow',                'Statements'],
+        ['for...from',                  'fat-arrow',                'Statements'],
         ['Embedded JavaScript',         'embedded',                 'Language'],
         ['switch...when...else',        'switch',                   'Statements'],
         ['try...catch...finally',       'try',                      'Statements'],
@@ -40,7 +44,12 @@ module Docs
         ['"""',                         'strings',                  'Language'],
         ['Block comments',              'strings',                  'Language'],
         ['###',                         'strings',                  'Language'],
+        ['Tagged Template Literals',    'tagged-template-literals',  'Language'],
         ['Block regexes',               'regexes',                  'Language'],
+        ['///',                         'regexes',                  'Language'],
+        ['Modules',                     'modules',                  'Language'],
+        ['import',                      'modules',                  'Language'],
+        ['export',                      'modules',                  'Language'],
         ['cake command',                'cake',                     'Miscellaneous'],
         ['Cakefile',                    'cake',                     'Miscellaneous'],
         ['Source maps',                 'source-maps',              'Miscellaneous']
@@ -68,6 +77,7 @@ module Docs
           when '**' then 'pow'
           when '//' then 'floor'
           when '%%' then 'mod'
+          when '@' then 'this'
           else name.parameterize
         end
       end

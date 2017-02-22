@@ -16,6 +16,7 @@ module Docs
         css('pre').each do |node|
           node.inner_html = node.inner_html.gsub('<br>', "\n").gsub('&nbsp;', ' ')
           node.content = node.content
+          node['data-language'] = 'php'
         end
 
         css('div.signature').each do |node|
@@ -29,6 +30,14 @@ module Docs
 
         css('.detail-table td.signature').each do |node|
           node.name = 'th'
+        end
+
+        css('.summary', 'span[style]').each do |node|
+          node.before(node.children).remove
+        end
+
+        css('a[id]:empty').each do |node|
+          node.next_element['id'] = node['id'] if node.next_element && node.next_element.name != 'a'
         end
 
         doc

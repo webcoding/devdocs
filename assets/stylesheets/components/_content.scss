@@ -163,6 +163,13 @@
   }
 }
 
+._heading-links {
+  float: right;
+  font-weight: normal;
+
+  > a + a { margin-left: .25rem; }
+}
+
 //
 // Table of contents
 //
@@ -234,7 +241,7 @@
 ._docs-name:before {
   float: left;
   margin: .25rem .5rem .25rem 0;
-  @extend %icon;
+  @extend %doc-icon;
 }
 
 ._docs-size { text-align: right; }
@@ -382,6 +389,19 @@
     }
   }
   &._pre-clip-error:after { content: 'Error'; }
+}
+
+._btn {
+  white-space: nowrap;
+  padding: .125rem .375rem;
+  background-image: linear-gradient(lighten($boxBackground, 3%), darken($boxBackground, 4%));
+  border: 1px solid $boxBorder;
+  border-radius: 3px;
+
+  &:active {
+    background-color: $boxBackground;
+    box-shadow: inset 0 1px 3px rgba(black, .15);
+  }
 }
 
 ._github-btn {

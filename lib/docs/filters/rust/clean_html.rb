@@ -4,13 +4,13 @@ module Docs
       def call
         if slug.start_with?('book')
           book
-        elsif slug.start_with?('reference')
+        elsif slug.start_with?('reference') || slug == 'error-index'
           reference
         else
           api
         end
 
-        css('.rusttest', 'hr').remove
+        css('.rusttest', '.test-arrow', 'hr').remove
 
         css('.docblock > h1').each { |node| node.name = 'h4' }
         css('h2.section-header').each { |node| node.name = 'h3' }
@@ -25,12 +25,13 @@ module Docs
         end
 
         css('pre > code').each do |node|
-          node.parent['class'] = node['class']
+          node.parent['data-language'] = 'rust' if node['class'] && node['class'].include?('rust')
           node.before(node.children).remove
         end
 
         css('pre').each do |node|
           node.content = node.content
+          node['data-language'] = 'rust' if node['class'] && node['class'].include?('rust')
         end
 
         doc
@@ -41,7 +42,11 @@ module Docs
       end
 
       def reference
-        css('#versioninfo').remove
+        css('#versioninfo', '.error-undescribed').remove
+
+        css('.error-described').each do |node|
+          node.before(node.children).remove
+        end
       end
 
       def api

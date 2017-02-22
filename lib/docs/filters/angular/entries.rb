@@ -2,51 +2,58 @@ module Docs
   class Angular
     class EntriesFilter < Docs::EntriesFilter
       def get_name
-        if slug.start_with?('api')
-          name = URI.unescape(slug).split('/').last
-          name.remove! %r{\Ang\.}
-          name << " (#{subtype})" if subtype == 'directive' || subtype == 'filter'
-          name.prepend("#{type}.") unless type.starts_with?('ng ') || name == type
-          name
-        elsif slug.start_with?('guide')
-          name = URI.decode(at_css('.improve-docs')['href'][/message=docs\(guide%2F(.+?)\)/, 1])
-          name.prepend 'Guide: '
-          name
+        if slug.start_with?('tutorial') || slug.start_with?('guide')
+          name = at_css('.nav-list-item.is-selected, header.hero h1').content.strip
+        else
+          name = at_css('header.hero h1').content.strip
         end
-      end
 
-      def get_type
-        if slug.start_with?('api')
-          type = slug.split('/').drop(1).first
-          type << " #{subtype}s" if type == 'ng' && subtype
-          type
-        elsif slug.start_with?('guide')
-          'Guide'
-        end
-      end
+        name = name.split(':').first
 
-      def subtype
-        return @subtype if defined? @subtype
-        node = at_css '.api-profile-header-structure'
-        data = node.content.match %r{(\w+?) in module} if node
-        @subtype = data && data[1]
-      end
-
-      def additional_entries
-        return [] unless slug.start_with?('api')
-        entries = []
-
-        css('ul.defs').each do |list|
-          list.css('> li[id]').each do |node|
-            next unless heading = node.at_css('h3')
-            name = heading.content.strip
-            name.sub! %r{\(.*\);}, '()'
-            name.prepend "#{self.name.split.first}."
-            entries << [name, node['id']]
+        if mod
+          if name == 'Index'
+            return slug.split('/')[1..-2].join('/')
+          elsif name == 'Angular'
+            return slug.split('/').last.split('-').first
           end
         end
 
-        entries
+        subtitle = at_css('.hero-subtitle').try(:content)
+        breadcrumbs = css('.breadcrumbs li').map(&:content)[2..-2]
+
+        name.prepend "#{breadcrumbs.join('.')}#" if breadcrumbs.present? && breadcrumbs[0] != name
+        name << '()' if %w(Function Method Constructor).include?(subtitle)
+        name
+      end
+
+      def get_type
+        if slug.start_with?('guide/')
+          'Guide'
+        elsif slug.start_with?('cookbook/')
+          'Cookbook'
+        elsif slug == 'glossary'
+          'Guide'
+        else
+          type = at_css('.nav-title.is-selected').content.strip
+          type.remove! ' Reference'
+          type << ": #{mod}" if mod
+          type
+        end
+      end
+
+      INDEX = Set.new
+
+      def include_default_entry?
+        INDEX.add?([name, type].join(';')) ? true : false # ¯\_(ツ)_/¯
+      end
+
+      private
+
+      def mod
+        return @mod if defined?(@mod)
+        @mod = slug[/api\/([\w\-\.]+)\//, 1]
+        @mod.remove! 'angular2.' if @mod
+        @mod
       end
     end
   end

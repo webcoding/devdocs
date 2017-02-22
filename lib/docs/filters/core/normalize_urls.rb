@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Docs
   class NormalizeUrlsFilter < Filter
     ATTRIBUTES = { a: 'href', img: 'src', iframe: 'src' }
@@ -12,7 +14,7 @@ module Docs
     def update_attribute(tag, attribute)
       css(tag.to_s).each do |node|
         next unless value = node[attribute]
-        next if fragment_url_string?(value)
+        next if fragment_url_string?(value) || data_url_string?(value)
         node[attribute] = normalize_url(value)
       end
     end

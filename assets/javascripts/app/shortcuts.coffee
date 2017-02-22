@@ -20,6 +20,7 @@ class app.Shortcuts
     @showTip = null
 
   onKeydown: (event) =>
+    return if @buggyEvent(event)
     result = if event.ctrlKey or event.metaKey
       @handleKeydownSuperEvent event unless event.altKey or event.shiftKey
     else if event.shiftKey
@@ -33,6 +34,7 @@ class app.Shortcuts
     return
 
   onKeypress: (event) =>
+    return if @buggyEvent(event)
     unless event.ctrlKey or event.metaKey
       result = @handleKeypressEvent event
       event.preventDefault() if result is false
@@ -59,9 +61,9 @@ class app.Shortcuts
       when 34
         @trigger 'pageDown'
       when 35
-        @trigger 'end'
+        @trigger 'pageBottom' unless event.target.form
       when 36
-        @trigger 'home'
+        @trigger 'pageTop' unless event.target.form
       when 37
         @trigger 'left' unless event.target.value
       when 38
@@ -74,6 +76,10 @@ class app.Shortcuts
         @trigger 'down'
         @showTip?()
         false
+      when 191
+        unless event.target.form
+          @trigger 'typing'
+          false
 
   handleKeydownSuperEvent: (event) ->
     switch event.which
@@ -84,14 +90,14 @@ class app.Shortcuts
           @trigger 'superLeft'
           false
       when 38
-        @trigger 'home'
+        @trigger 'pageTop'
         false
       when 39
         unless @isWindows
           @trigger 'superRight'
           false
       when 40
-        @trigger 'end'
+        @trigger 'pageBottom'
         false
 
   handleKeydownShiftEvent: (event) ->
@@ -135,6 +141,9 @@ class app.Shortcuts
       when 71
         @trigger 'altG'
         false
+      when 79
+        @trigger 'altO'
+        false
       when 82
         @trigger 'altR'
         false
@@ -148,3 +157,12 @@ class app.Shortcuts
       false
     else
       @lastKeypress = Date.now()
+
+  buggyEvent: (event) ->
+    try
+      event.target
+      event.ctrlKey
+      event.which
+      return false
+    catch
+      return true
